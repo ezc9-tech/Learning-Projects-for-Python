@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -7,11 +8,19 @@ def add():
     password_content = password_text.get()
     website_content = website_text.get()
     email_content = email_text.get()
-    with open("data.txt", "a") as file:
-        file.write(f"{website_content} | {email_content} | {password_content}\n")
-        password_text.delete(0, END)
-        website_text.delete(0, END)
-    file.close()
+
+    if len(password_content) == 0 or len(website_content) == 0 or len(email_content) == 0:
+        messagebox.showerror(title="Error", message="One or more entries is empty.")
+
+    else:
+        is_ok = messagebox.askyesno(title="Are you sure?", message=f"Are you sure these are the details:"
+                                        f"\n{website_content}\n{email_content}\n{password_content}\nIs it ok to save?")
+        if is_ok:
+            with open("data.txt", "a") as file:
+                file.write(f"{website_content} | {email_content} | {password_content}\n")
+                password_text.delete(0, END)
+                website_text.delete(0, END)
+            file.close()
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -19,7 +28,7 @@ window = Tk()
 window.config(padx=20, pady=20)
 window.title("Password Manager")
 
-logo = PhotoImage(file=r"C:\Users\ezc9\Documents\GitHub\Learning-Projects-for-Python\Password Manager Gui\logo.png")
+logo = PhotoImage(file=r"C:\Users\ezc9\OneDrive\Documents\GitHub\Learning-Projects-for-Python\Password Manager Gui\logo.png")
 canvas = Canvas(width=200, height=200, highlightthickness=0)
 canvas.create_image(100,100,image=logo)
 canvas.grid(column=1, row=0)
