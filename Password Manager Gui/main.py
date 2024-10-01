@@ -1,7 +1,33 @@
 from tkinter import *
 from tkinter import messagebox
+import random
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+def password_generator():
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+    password_list= []
+
+    for number in range(1,12):
+        password_list.append(random.choice(letters))
+
+    for number in range(1,2):
+        password_list.append(random.choice(numbers))
+
+    for number in range(1):
+        password_list.append(random.choice(symbols))
+
+    password_returned = ""
+    random.shuffle(password_list)
+
+    for char in password_list:
+        password_returned += char
+
+    password_text.insert(index=0, string=password_returned)
+
+
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def add():
@@ -53,7 +79,7 @@ password.grid(column=0, row=3)
 password_text = Entry(width=21)
 password_text.grid(column=1, row=3)
 
-password_button = Button(text="Generate Password")
+password_button = Button(text="Generate Password", command=password_generator)
 password_button.grid(column=2, row=3, columnspan=2)
 
 add_button = Button(text="Add", width=36, command= add)
