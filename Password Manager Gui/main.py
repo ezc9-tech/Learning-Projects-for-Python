@@ -58,13 +58,26 @@ def add():
                     json.dump(data, data_file, indent=4)
                     website_text.delete(0, END)
                     password_text.delete(0, END)
-            except JSONDecodeError:
+            except JSONDecodeError or FileNotFoundError:
                 with open("data.json", "w") as data_file:
                     json.dump(new_data, data_file, indent=4)
 
                     website_text.delete(0, END)
                     password_text.delete(0, END)
+#----------------------------- Search ---------------------------------#
+def search():
+    website_content = website_text.get()
 
+    try:
+        with open("data.json", "r") as data_file:
+            data = json.load(data_file)
+            if website_content in data:
+                password_content = data[website_content]["password"]
+                messagebox.showinfo(title="Password Detected", message=f"{website_content}'s password is:\n{password_content}")
+            else:
+                messagebox.showerror(title="Not Found", message="No details for the website exists.")
+    except FileNotFoundError:
+        messagebox.showerror(title="File not found", message="No data file found.")
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -84,6 +97,9 @@ website.grid(column=0, row=1)
 website_text = Entry(width=35)
 website_text.focus()
 website_text.grid(column=1, row=1, columnspan=2)
+
+website_button = Button(text="Search", command=search)
+website_button.grid(column=3, row=1)
 
 email = Label(text="Email/Username:")
 email.grid(column=0, row=2)
