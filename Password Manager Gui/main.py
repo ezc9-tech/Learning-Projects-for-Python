@@ -1,6 +1,8 @@
+from json import JSONDecodeError
 from tkinter import *
 from tkinter import messagebox
 import random
+import json
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def password_generator():
@@ -34,6 +36,12 @@ def add():
     password_content = password_text.get()
     website_content = website_text.get()
     email_content = email_text.get()
+    new_data = {
+        website_content: {
+            "email": email_content,
+            "password": password_content,
+        }
+    }
 
     if len(password_content) == 0 or len(website_content) == 0 or len(email_content) == 0:
         messagebox.showerror(title="Error", message="One or more entries is empty.")
@@ -42,11 +50,21 @@ def add():
         is_ok = messagebox.askyesno(title="Are you sure?", message=f"Are you sure these are the details:"
                                         f"\n{website_content}\n{email_content}\n{password_content}\nIs it ok to save?")
         if is_ok:
-            with open("data.txt", "a") as file:
-                file.write(f"{website_content} | {email_content} | {password_content}\n")
-                password_text.delete(0, END)
-                website_text.delete(0, END)
-            file.close()
+            try:
+                with open("data.json", "r") as data_file:
+                    data = json.load(data_file)
+                    data.update(new_data)
+                with open("data.json", "w") as data_file:
+                    json.dump(data, data_file, indent=4)
+                    website_text.delete(0, END)
+                    password_text.delete(0, END)
+            except JSONDecodeError:
+                with open("data.json", "w") as data_file:
+                    json.dump(new_data, data_file, indent=4)
+
+                    website_text.delete(0, END)
+                    password_text.delete(0, END)
+
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -54,7 +72,8 @@ window = Tk()
 window.config(padx=20, pady=20)
 window.title("Password Manager")
 
-logo = PhotoImage(file=r"C:\Users\ezc9\OneDrive\Documents\GitHub\Learning-Projects-for-Python\Password Manager Gui\logo.png")
+#put your image file path into the photo image
+logo = PhotoImage(file=r"C:\Users\ezc9\Documents\GitHub\Learning-Projects-for-Python\Password Manager Gui\logo.png")
 canvas = Canvas(width=200, height=200, highlightthickness=0)
 canvas.create_image(100,100,image=logo)
 canvas.grid(column=1, row=0)
