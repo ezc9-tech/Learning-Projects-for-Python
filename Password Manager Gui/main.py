@@ -76,7 +76,7 @@ def search():
                 messagebox.showinfo(title="Password Detected", message=f"{website_content}'s password is:\n{password_content}")
             else:
                 messagebox.showerror(title="Not Found", message="No details for the website exists.")
-    except FileNotFoundError:
+    except JSONDecodeError or FileNotFoundError:
         messagebox.showerror(title="File not found", message="No data file found.")
 
 
