@@ -7,7 +7,10 @@ BACKGROUND_COLOR = "#B1DDC6"
 ENGLISH_FONT = ("Ariel", 40, "italic")
 FRENCH_FONT = ("Ariel", 60, "bold")
 
-data = pandas.read_csv(r"C:\Users\ezc9\Documents\GitHub\Learning-Projects-for-Python\Flash Card Gui\data\french_words.csv")
+try:
+    data = pandas.read_csv("data/words_to_learn.csv")
+except FileNotFoundError:
+    data = pandas.read_csv(r"C:\Users\ezc9\Documents\GitHub\Learning-Projects-for-Python\Flash Card Gui\data\french_words.csv")
 to_learn = data.to_dict(orient="records")
 word = {}
 
@@ -28,6 +31,13 @@ def flip_card():
     card.itemconfig(english, text= "English", fill="white")
     card.itemconfig(french, text= word["English"], fill="white")
     card.itemconfig(card_background, image=card_image2)
+
+def skip_button_function_check():
+    to_learn.remove(word)
+    wow = pandas.DataFrame(to_learn)
+    wow.to_csv("data/words_to_learn")
+    skip_button_function()
+
 
 
 
@@ -53,7 +63,7 @@ no_button = Button(image=no_button_image, highlightthickness=0, command = skip_b
 no_button.grid(column=0, row=1)
 
 yes_button_image = PhotoImage(file= r"C:\Users\ezc9\Documents\GitHub\Learning-Projects-for-Python\Flash Card Gui\images\right.png")
-yes_button = Button(image= yes_button_image, highlightthickness=0, command= skip_button_function)
+yes_button = Button(image= yes_button_image, highlightthickness=0, command= skip_button_function_check)
 yes_button.grid(column= 1, row= 1)
 
 skip_button_function()
