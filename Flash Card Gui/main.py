@@ -49,8 +49,8 @@ window.title("Flash Card Game")
 window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 timer = window.after(3000, func=flip_card)
 
-card_image = PhotoImage(file=r"C:\Users\ezc9\Documents\GitHub\Learning-Projects-for-Python\Flash Card Gui\images\card_front.png")
-card_image2 = PhotoImage(file=r"C:\Users\ezc9\Documents\GitHub\Learning-Projects-for-Python\Flash Card Gui\images\card_back.png")
+card_image = PhotoImage(file=r"images\card_front.png")
+card_image2 = PhotoImage(file=r"images\card_back.png")
 card = Canvas(width=800, height=526, highlightthickness=0, bg=BACKGROUND_COLOR)
 card_background = card.create_image(400, 263, image=card_image)
 english = card.create_text(400, 150, text="French", fill="black", font=ENGLISH_FONT)
@@ -58,11 +58,11 @@ french = card.create_text(400, 263, text="trouve", fill="black", font=FRENCH_FON
 card.grid(column=0, row=0, columnspan=2)
 
 
-no_button_image = PhotoImage(file=r"C:\Users\ezc9\Documents\GitHub\Learning-Projects-for-Python\Flash Card Gui\images\wrong.png")
+no_button_image = PhotoImage(file=r"images\wrong.png")
 no_button = Button(image=no_button_image, highlightthickness=0, command = skip_button_function)
 no_button.grid(column=0, row=1)
 
-yes_button_image = PhotoImage(file= r"C:\Users\ezc9\Documents\GitHub\Learning-Projects-for-Python\Flash Card Gui\images\right.png")
+yes_button_image = PhotoImage(file= r"images\right.png")
 yes_button = Button(image= yes_button_image, highlightthickness=0, command= skip_button_function_check)
 yes_button.grid(column= 1, row= 1)
 

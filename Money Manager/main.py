@@ -10,22 +10,50 @@ window.config(padx=50, pady= 50, bg=blue)
 window.title("Money Manager")
 
 #---------------------------------Adding Money----------------------------#
-money = 0.0
+monthly_money = 0.0
+money = 0
 expenses = 0.0
 month_value = ""
+data = {"January": [0, 0],
+        "February": [0, 0],
+        "March": [0, 0],
+        "April": [0, 0],
+        "May": [0, 0],
+        "June": [0, 0],
+        "July": [0, 0],
+        "August": [0, 0],
+        "September": [0, 0],
+        "October": [0, 0],
+        "November": [0, 0],
+        "December": [0, 0]}
+file = pandas.DataFrame(data)
+rows = file.iterrows()
+print(rows)
 
 def add_money():
-    global money
-    money = float(income_grabber.get())
+    global monthly_money, file, money
+    monthly_money = float(income_grabber.get())
+    money += monthly_money
     total_money.config(text=f"Total Money: ${money}")
+    if month_value in file.columns:
+        file.at[0, month_value] = monthly_money
+    print(file)
+
 
 def subtract_money():
-    global money, expenses
+    global monthly_money, expenses, money
     expenses = float(expense_grabber.get())
-    total_money.config(text=f"Total Money: ${money-expenses}")
+    money -= expenses
+    total_money.config(text=f"Total Money: ${money}")
+    if month_value in file.columns:
+        file.at[1, month_value] = -expenses
+    print(file)
+        
 
 def get_month():
-    global month_value
+    global month_value, monthly_money, expenses
+    monthly_money = 0
+    expenses = 0
     month_value = root.get()
 
 
@@ -66,8 +94,13 @@ expense_button = Button(text="Submit", command=subtract_money)
 expense_button.grid(row=3, column=2)
 
 #Total Money printer
-total_money = Label(text="Total Money: $0", bg=blue, fg="white", highlightthickness=0, font=sub_font)
+total_money = Label(text=f"Total Money: ${money}", bg=blue, fg="white", highlightthickness=0, font=sub_font)
 total_money.grid(row=4, column=1)
+
+#Monthly Money printer
+monthly_money_printer = Label(text=f"Monthly Money Remaining: {monthly_money}", bg=blue, fg="white", highlightthickness=0, font=sub_font)
+monthly_money_printer.grid(row=5, column=1)
+
 
 
 

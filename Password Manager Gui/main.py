@@ -86,7 +86,7 @@ window.config(padx=20, pady=20)
 window.title("Password Manager")
 
 #put your image file path into the photo image
-logo = PhotoImage(file=r"C:\Users\ezc9\Documents\GitHub\Learning-Projects-for-Python\Password Manager Gui\logo.png")
+logo = PhotoImage(file="logo.png")
 canvas = Canvas(width=200, height=200, highlightthickness=0)
 canvas.create_image(100,100,image=logo)
 canvas.grid(column=1, row=0)
