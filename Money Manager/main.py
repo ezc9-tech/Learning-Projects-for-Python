@@ -1,5 +1,6 @@
 from tkinter import *
 import pandas
+from pandas.core.interchange.dataframe_protocol import DataFrame
 
 blue = "#21abcd"
 title_font = ("Ariel", 24, "bold")
@@ -15,40 +16,41 @@ monthly_money = 0.0
 money = 0
 expenses = 0.0
 month_value = ""
-data = {"January": 0,
-        "February": 0,
-        "March": 0,
-        "April": 0,
-        "May": 0,
-        "June": 0,
-        "July": 0,
-        "August": 0,
-        "September": 0,
-        "October": 0,
-        "November": 0,
-        "December": 0}
+data = {"Month": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        "Monthly Income": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "Food": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "Utilities": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "Travel": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "Housing": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "Debt": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "Insurance": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }
 
 
 def calculate():
-    global monthly_money, money, expenses, month_value
-
+    global monthly_money, money, expenses, month_value, data
     month_value = root.get()
+    month_index = data["Month"].index(month_value)
     monthly_money = float(income_grabber.get())
+    data["Monthly Income"][month_index] = monthly_money
     food = float(food_grabber.get())
+    data["Food"][month_index] = food
     utilities = float(utilities_grabber.get())
+    data["Utilities"][month_index] = utilities
     travel = float(travel_grabber.get())
+    data["Travel"][month_index] = travel
     housing = float(housing_grabber.get())
+    data["Housing"][month_index] = housing
     debt = float(debt_grabber.get())
+    data["Debt"][month_index] = debt
     insurance = float(insurance_grabber.get())
-
+    data["Insurance"][month_index] = insurance
+    data_dataframe = pandas.DataFrame(data)
+    data_dataframe.to_csv("Money_Tracked.csv")
     expenses = food + utilities + travel + housing + debt + insurance
-    money = monthly_money - expenses
-
+    money += monthly_money - expenses
     total_money.config(text=f"Total Money: ${money}")
     monthly_money_printer.config(text=f"Monthly Money Remaining: {monthly_money}")
-
-
-
 
 
 #-------------------------------------UI----------------------------------#
