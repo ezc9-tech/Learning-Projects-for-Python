@@ -32,19 +32,19 @@ def calculate():
     month_value = root.get()
     month_index = data["Month"].index(month_value)
     monthly_money = float(income_grabber.get())
-    data["Monthly Income"][month_index] = monthly_money
+    data["Monthly Income"][month_index] = f"${monthly_money}"
     food = float(food_grabber.get())
-    data["Food"][month_index] = food
+    data["Food"][month_index] = f"${food}"
     utilities = float(utilities_grabber.get())
-    data["Utilities"][month_index] = utilities
+    data["Utilities"][month_index] = f"${utilities}"
     travel = float(travel_grabber.get())
-    data["Travel"][month_index] = travel
+    data["Travel"][month_index] = f"${travel}"
     housing = float(housing_grabber.get())
-    data["Housing"][month_index] = housing
+    data["Housing"][month_index] = f"${housing}"
     debt = float(debt_grabber.get())
-    data["Debt"][month_index] = debt
+    data["Debt"][month_index] = f"${debt}"
     insurance = float(insurance_grabber.get())
-    data["Insurance"][month_index] = insurance
+    data["Insurance"][month_index] = f"${insurance}"
     data_dataframe = pandas.DataFrame(data)
     data_dataframe.to_csv("Money_Tracked.csv")
     expenses = food + utilities + travel + housing + debt + insurance
