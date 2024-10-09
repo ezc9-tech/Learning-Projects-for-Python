@@ -1,6 +1,8 @@
 from tkinter import *
 import pandas
-from pandas.core.interchange.dataframe_protocol import DataFrame
+import matplotlib.pyplot as plot
+import numpy as np
+
 
 blue = "#21abcd"
 title_font = ("Ariel", 24, "bold")
@@ -16,6 +18,8 @@ monthly_money = 0.0
 money = 0
 expenses = 0.0
 month_value = ""
+month_index = 0
+list_data = []
 data = {"Month": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         "Monthly Income": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         "Food": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -27,30 +31,53 @@ data = {"Month": ["January", "February", "March", "April", "May", "June", "July"
         }
 
 
+
+
 def calculate():
-    global monthly_money, money, expenses, month_value, data
+    global monthly_money, money, expenses, month_value, data, month_index, list_data
     month_value = root.get()
     month_index = data["Month"].index(month_value)
     monthly_money = float(income_grabber.get())
-    data["Monthly Income"][month_index] = f"${monthly_money}"
+    data["Monthly Income"][month_index] = monthly_money
     food = float(food_grabber.get())
-    data["Food"][month_index] = f"${food}"
+    data["Food"][month_index] = food
     utilities = float(utilities_grabber.get())
-    data["Utilities"][month_index] = f"${utilities}"
+    data["Utilities"][month_index] = utilities
     travel = float(travel_grabber.get())
-    data["Travel"][month_index] = f"${travel}"
+    data["Travel"][month_index] = travel
     housing = float(housing_grabber.get())
-    data["Housing"][month_index] = f"${housing}"
+    data["Housing"][month_index] = housing
     debt = float(debt_grabber.get())
-    data["Debt"][month_index] = f"${debt}"
+    data["Debt"][month_index] = debt
     insurance = float(insurance_grabber.get())
-    data["Insurance"][month_index] = f"${insurance}"
+    data["Insurance"][month_index] = insurance
     data_dataframe = pandas.DataFrame(data)
     data_dataframe.to_csv("Money_Tracked.csv")
     expenses = food + utilities + travel + housing + debt + insurance
     money += monthly_money - expenses
     total_money.config(text=f"Total Money: ${money}")
     monthly_money_printer.config(text=f"Monthly Money Remaining: {monthly_money}")
+
+    for key in data:
+        count = 0
+        if count != 0:
+            list_data.append(data[key][month_index])
+        count+=1
+
+    plot.style.use("_mpl-gallery-nogrid")
+
+    x = list_data
+    colors = plot.get_cmap("Blues")(np.linspace(.2, .7, len(x)))
+
+    fig, ax = plot.subplots()
+    ax.pie(x, colors=colors, radius=3, center=(4, 4), wedgeprops={"linewidth": 1, "edgecolor": "white"}, frame=True)
+
+    ax.set(xlim=(0, 8), xticks=np.arange(1, 8),
+           ylim=(0, 8), yticks=np.arange(1, 8))
+
+    plot.savefig("pie_chart.png")
+
+    plot.show()
 
 
 #-------------------------------------UI----------------------------------#
